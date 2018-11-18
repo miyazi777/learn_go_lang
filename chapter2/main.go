@@ -79,8 +79,62 @@ func func_for() {
   Println("------")
 }
 
+func func_switch_basic(n int) {
+  switch n {
+  case 15:
+    Println("FizzBuzz")
+  case 5, 10:
+    Println("Buzz")
+  case 3,6,9:
+    Println("Fizz")
+  default:
+    Println(n)
+  }
+}
+
+func func_switch_failthrough() {
+  n := 3
+  switch n {
+  case 3:
+    Println(n)
+    n = n - 1
+    fallthrough
+  case 2:
+    Println(n)
+    n = n - 1
+    fallthrough
+  default:
+    Println("default")
+  }
+}
+
+func func_switch_eval(n int) {
+  switch {
+  case n%15 == 0:
+    Println("FuzzBuzz")
+  case n%5 == 0:
+    Println("Buzz")
+  case n%3 == 0:
+    Println("Fizz")
+  default:
+    Println(n)
+  }
+}
+
+func func_switch() {
+  func_switch_basic(15)  // FizzBuzz
+  func_switch_basic(5)   // Buzz
+  func_switch_basic(2)   // Fizz
+  func_switch_failthrough() // 3\n2\ndefault
+  func_switch_eval(15)   // FizzBuzz
+  func_switch_eval(5)    // Buzz
+  func_switch_eval(3)    // Fizz
+  func_switch_eval(2)    // default
+}
+
 func main() {
   func_var()
   func_if()
   func_for()
+  func_switch()
 }
