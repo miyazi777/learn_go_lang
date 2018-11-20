@@ -4,6 +4,7 @@ import (
   _ "strings"   // 使わないパッケージの先頭に_をつけてコンパイルエラーを抑止できる
   . "fmt"
   //f "fmt"     // aliasを指定することも可能
+  "errors"
 )
 
 
@@ -79,6 +80,7 @@ func func_for() {
   Println("------")
 }
 
+// switchの基本
 func func_switch_basic(n int) {
   switch n {
   case 15:
@@ -92,6 +94,7 @@ func func_switch_basic(n int) {
   }
 }
 
+// switch処理内にfailthroughを付けると次のswitch文へ処理を
 func func_switch_failthrough() {
   n := 3
   switch n {
@@ -108,6 +111,7 @@ func func_switch_failthrough() {
   }
 }
 
+// switchには式が使える
 func func_switch_eval(n int) {
   switch {
   case n%15 == 0:
@@ -122,6 +126,7 @@ func func_switch_eval(n int) {
 }
 
 func func_switch() {
+  Println("---switch---")
   func_switch_basic(15)  // FizzBuzz
   func_switch_basic(5)   // Buzz
   func_switch_basic(2)   // Fizz
@@ -130,6 +135,65 @@ func func_switch() {
   func_switch_eval(5)    // Buzz
   func_switch_eval(3)    // Fizz
   func_switch_eval(2)    // default
+  Println("------")
+}
+
+// 関数基本
+func func_func_basic() {
+  Println("hello")
+}
+
+// 引数の型が同じ場合は以下のように型を指定可能
+func func_sum(i, j int) {
+  Println(i+j)
+}
+
+// 複数の戻り値
+func func_swap(i, j int) (int, int) {
+  return j, i
+}
+
+// エラーを返却する関数
+func func_error_rtn(i, j int) (int, error) {
+  if j == 0 {
+    return 0, errors.New("divied by zero")
+  }
+  return i / j, nil
+}
+
+// 名前付き戻り値
+func func_name_rtn(v int) (result int) {
+  result = v + 1
+  return
+}
+
+// 関数リテラル
+func func_literal() {
+  func(i, j int) {
+    Println(i+j)
+  }(3, 5)
+}
+
+// 無名関数を変数に入れることも可能
+var sum_func func(i, j int) = func(i, j int) {
+  Println(i + j)
+}
+
+func func_func() {
+  Println("---func---")
+  func_func_basic() // hello
+  func_sum(1, 3)  // 3
+  x, y := 3, 4
+  x, y = func_swap(x, y)
+  Println(x, y)   // 4 3
+  n, err := func_error_rtn(10, 0)
+  Println(n, err) // 0 divied by zero
+  n2, err2 := func_error_rtn(10, 2)
+  Println(n2, err2)  // 5 <nil>
+  Println(func_name_rtn(5))  // 6
+  func_literal() // 8
+  sum_func(3, 4) // 7
+  Println("------")
 }
 
 func main() {
@@ -137,4 +201,5 @@ func main() {
   func_if()
   func_for()
   func_switch()
+  func_func()
 }
