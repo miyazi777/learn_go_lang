@@ -307,6 +307,68 @@ func func_slice() {
   Println("------")
 }
 
+// マップの基本
+func func_map_basic() {
+  var month map[int]string = map[int]string{}
+  month[1] = "Jan"
+  month[2] = "Feb"
+  Println(month)  // map[1:Jan 2:Feb]
+  Println(month[1]) // Jan
+}
+
+// マップの初期化
+func func_map_init() {
+  month := map[int]string{
+    1:"Jan",
+    2:"Feb",
+  }
+  Println(month)  // map[1:Jan 2:Feb]
+}
+
+// マップの操作
+func func_map_operation() {
+  month := map[int]string{
+    1:"Jan",
+    2:"Feb",
+    3:"Mar",
+  }
+  jan := month[1]
+  Println(jan)  // Jan
+
+  _, ok := month[1]   // キーの存在確認(存在しているキーを指定)
+  if ok {
+    Println("true") // true
+  } else {
+    Println("false")
+  }
+
+  _, ok2 := month[5]   // キーの存在悪人(存在していないキーを指定)
+  if ok2 {
+    Println("true")
+  } else {
+    Println("false")  // false
+  }
+
+  // マップのrange
+  for key, value := range month {
+    Printf("%d %s\n", key, value)  // 1 Jan\n2 Feb\n3 Mar
+  }
+
+  // マップからデータを削除
+  Println(month)      // [1:Jan 2:Feb 3:Mar ]
+  delete(month, 2)
+  Println(month)      // [1:Jan 3:Mar]
+}
+
+// マップ
+func func_map() {
+  Println("---Map---")
+  func_map_basic()
+  func_map_init()
+  func_map_operation()
+  Println("------")
+}
+
 func main() {
   func_var()
   func_if()
@@ -315,4 +377,5 @@ func main() {
   func_func()
   func_array()
   func_slice()
+  func_map()
 }
