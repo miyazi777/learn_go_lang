@@ -179,6 +179,7 @@ var sum_func func(i, j int) = func(i, j int) {
   Println(i + j)
 }
 
+// 関数
 func func_func() {
   Println("---func---")
   func_func_basic() // hello
@@ -196,10 +197,122 @@ func func_func() {
   Println("------")
 }
 
+// 配列の基本
+func array_basic() {
+  var arr1 [3]string
+  arr1[0] = "a"
+  arr1[1] = "b"
+  arr1[2] = "c"
+  Println(arr1[0])  // a
+}
+
+// 配列の初期化
+func array_init() {
+  arr := [...]string{ "a", "b", "c" }
+  Println(arr)      // [a b c]
+}
+
+// 配列を引数にする
+func array_fn(arr [3]string) {
+  Println(arr)
+}
+func array_arg() {
+  arr1 := [3]string{"a", "b", "c"}
+  array_fn(arr1)  // [a b c]
+}
+
+// 配列が値渡しであることを確認する
+func array_fn2(arr [3]string) {
+  arr[1] = "e"
+  Println(arr)  // [a e c]
+}
+func array_arg2() {
+  arr := [3]string{"a", "b", "c"}
+  array_fn2(arr)
+  Println(arr)  // [a b c]
+}
+
+// 配列
+func func_array() {
+  Println("---Array---")
+  array_basic()
+  array_init()
+  array_arg()
+  array_arg2()
+  Println("------")
+}
+
+// スライスの基本
+func func_slice_basic() {
+  var s []string    // 形式は配列と同じ。長さを指定しないことでスライスとなる
+  s = append(s, "a")
+  Println(s)    // [a]
+}
+
+// スライスの初期化
+func func_slice_init() {
+  s := []string{"a","b","c"}
+  Println(s[0]) // a
+}
+
+// スライスの追加
+func func_slice_append() {
+  s := []string{"a", "b", "c"}
+  s = append(s, "d")
+  Println(s)  // [a b c d]
+
+  s1 := []string{"a", "b"}
+  s2 := []string{"c", "d"}
+  s1 = append(s1, s2...)
+  Println(s1) // [a b c d]
+}
+
+// スライスへの順次アクセス
+func func_slice_range() {
+  arr := [3]string{"a", "b", "c"}
+  for i, s := range arr {
+    Println(i, s)     // 0 a\n  1 b\n 2 c\n
+  }
+}
+
+// スライスの切り出し
+func func_slice_cut() {
+  s := []int{0,1,2,3,4,5}
+  Println(s[2:4])   // [2 3]
+  Println(s[0:len(s)])   // [0 1 2 3 4 5]
+  Println(s[:3])   // [0 1 2]
+  Println(s[3:])   // [3 4 5]
+  Println(s[:])   // [0 1 2 3 4 5]
+}
+
+// 可変長引数
+func func_slice_args(nums ...int) (result int) {
+  for _, n := range nums {
+    result += n
+  }
+  return
+}
+
+// スライス
+func func_slice() {
+  Println("---Slice---")
+  func_slice_basic()
+  func_slice_init()
+  func_slice_append()
+  func_slice_range()
+  func_slice_cut()
+  func_slice_args()
+  x := func_slice_args(func_slice_args(1, 2, 3))
+  Println(x)    // 6
+  Println("------")
+}
+
 func main() {
   func_var()
   func_if()
   func_for()
   func_switch()
   func_func()
+  func_array()
+  func_slice()
 }
