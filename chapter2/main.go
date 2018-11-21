@@ -369,6 +369,26 @@ func func_map() {
   Println("------")
 }
 
+func callByValue(i int) {
+  i = 20  // 値を上書きする
+}
+
+func callByRef(i *int) {
+  *i = 20   // 参照先を上書きする
+}
+
+// ポインタ
+func func_pointer() {
+  Println("---Pointer---")
+  v := 10
+  callByValue(v)  // 指定がなければ、値渡しになる
+  Println(v)  // 10
+  v2 := 10
+  callByRef(&v2)   // &をつけて参照渡しになる
+  Println(v2) // 20
+  Println("------")
+}
+
 func main() {
   func_var()
   func_if()
@@ -378,4 +398,5 @@ func main() {
   func_array()
   func_slice()
   func_map()
+  func_pointer()
 }
