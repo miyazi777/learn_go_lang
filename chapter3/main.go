@@ -125,6 +125,7 @@ func (u *MyCar) run(speed int) string {
 	u.speed = speed
 	return Sprintf("%dkmで走ります", u.speed)
 }
+
 func (u *MyCar) stop() {
 	Println("停止します")
 	u.speed = 0
@@ -140,6 +141,38 @@ func func_interface() {
 	Println("------")
 }
 
+func func_interface_any_type() {
+	Println("---interface(any type)---")
+
+	// 空のインターフェイス定義
+	var x interface{}
+	num := 0
+	str := "hello"
+	// どんな型でも代入可能
+	x = num
+	Println(x)
+	x = str
+	Println(x)
+
+	Println("------")
+}
+
+func func_interface_any_type2() {
+	Println("---interface(any type)2---")
+	type Element interface{}
+	var element Element = "hello"
+
+	if value, ok := element.(int); ok {
+		Printf("int value:%d\n", value)
+	} else if value, ok := element.(string); ok {
+		Printf("string value:%s\n", value) // string value:hello
+	} else {
+		Println("other")
+	}
+
+	Println("------")
+}
+
 func main() {
 	var id ID = 1
 	var priority Priority = 5
@@ -148,4 +181,6 @@ func main() {
 	func_struct()
 	method_test()
 	func_interface()
+	func_interface_any_type()
+	func_interface_any_type2()
 }
