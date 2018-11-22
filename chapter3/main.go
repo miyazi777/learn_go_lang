@@ -157,6 +157,7 @@ func func_interface_any_type() {
 	Println("------")
 }
 
+// 空のインターフェイスに値を入れた場合の型判定しているサンプル
 func func_interface_any_type2() {
 	Println("---interface(any type)2---")
 	type Element interface{}
@@ -167,6 +168,16 @@ func func_interface_any_type2() {
 	} else if value, ok := element.(string); ok {
 		Printf("string value:%s\n", value) // string value:hello
 	} else {
+		Println("other")
+	}
+
+	// switch文をつかった場合のやり方
+	switch value := element.(type) {
+	case int:
+		Printf("int value:%d\n", value)
+	case string:
+		Printf("string value:%s\n", value) // string value:hello
+	default:
 		Println("other")
 	}
 
