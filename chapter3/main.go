@@ -26,6 +26,17 @@ func func_callByRef(task *Task) {
 	task.done = true
 }
 
+// コンストラクタ
+// 実際にはコンストラクタはないのでNewで始まる関数を定義してその内部で構造体を生成するのが、goの慣例
+func NewTask(id int, detail string) *Task {
+	task := &Task{
+		ID:     id,
+		Detail: detail,
+		done:   false,
+	}
+	return task
+}
+
 func func_struct() {
 	Println("---struct---")
 	var task Task = Task{
@@ -57,6 +68,41 @@ func func_struct() {
 	Println(task4.Detail) // "ref test"
 	Println(task4.done)   // true
 
+	// newで初期化することも可能
+	var task5 *Task = new(Task)
+	task5.ID = 5
+	task5.Detail = "buy the milk"
+	task5.done = false
+	Println(task5.ID)     // 5
+	Println(task5.Detail) // "buy the milk
+	Println(task5.done)   // false
+
+	// new関数を使った初期化
+	task6 := NewTask(11, "test6")
+	Println(task6.ID)     // 11
+	Println(task6.Detail) // "test6"
+	Println(task6.done)   // false
+
+	Println("------")
+}
+
+func (task Task) String() string {
+	str := Sprintf("%d) %s\n", task.ID, task.Detail)
+	return str
+}
+
+func (task *Task) Finish() {
+	task.done = true
+}
+
+func method_test() {
+	Println("---method---")
+	task := NewTask(1, "test method")
+	Printf("%s", task.String()) // 1) test method
+	Printf("%s", task)          // 上と同じ
+	task.Finish()
+	Println(task.done) // true
+
 	Println("------")
 }
 
@@ -66,4 +112,5 @@ func main() {
 	custom_type(id, priority)
 	//custom_type(priority, id)   // これはコンパイルエラーとなる
 	func_struct()
+	method_test()
 }
