@@ -86,11 +86,13 @@ func func_struct() {
 	Println("------")
 }
 
+// このように記述することでTask構造体にメソッド定義できる
 func (task Task) String() string {
 	str := Sprintf("%d) %s\n", task.ID, task.Detail)
 	return str
 }
 
+// こちらもメソッド定義
 func (task *Task) Finish() {
 	task.done = true
 }
@@ -102,6 +104,38 @@ func method_test() {
 	Printf("%s", task)          // 上と同じ
 	task.Finish()
 	Println(task.done) // true
+	Println("------")
+}
+
+// インターフェイス
+//// 検証用のcarインターフェイス
+type Car interface {
+	run(int) string
+	stop()
+}
+
+//// 検証用の構造体
+type MyCar struct {
+	name  string
+	speed int
+}
+
+//// インターフェイスで定義されたメソッドを実装する
+func (u *MyCar) run(speed int) string {
+	u.speed = speed
+	return Sprintf("%dkmで走ります", u.speed)
+}
+func (u *MyCar) stop() {
+	Println("停止します")
+	u.speed = 0
+}
+
+func func_interface() {
+	Println("---interface---")
+
+	myCar := &MyCar{name: "マイカー", speed: 0}
+	Println(myCar.run(50))
+	myCar.stop()
 
 	Println("------")
 }
@@ -113,4 +147,5 @@ func main() {
 	//custom_type(priority, id)   // これはコンパイルエラーとなる
 	func_struct()
 	method_test()
+	func_interface()
 }
