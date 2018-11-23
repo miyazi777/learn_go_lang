@@ -184,6 +184,91 @@ func func_interface_any_type2() {
 	Println("------")
 }
 
+// 構造Taskに対してUserを埋め込む実験
+type User struct {
+  FirstName string
+  LastName string
+}
+
+func (u *User) FullName() string {
+  fullname := Sprintf("%s %s", u.FirstName, u.LastName)
+  return fullname
+}
+
+func NewUser(firstName, lastName string) *User {
+  return &User{
+    FirstName: firstName,
+    LastName: lastName,
+  }
+}
+
+type Task2 struct {
+  ID int
+  Detail string
+  done bool
+  *User // Userを埋め込む
+}
+
+func NewTask2(id int, detail, firstName, lastName string) *Task2 {
+  task := &Task2{
+    ID: id,
+    Detail: detail,
+    done: false,
+    User: NewUser(firstName, lastName),
+  }
+  return task
+}
+
+func func_extend() {
+	Println("---Extend---")
+
+  task := NewTask2(1, "buy the milk", "Jack", "Daniel")
+  Println(task.FirstName) // Jack
+  Println(task.LastName)  // Daniel
+  Println(task.FullName())    // Jack Daniel
+  Println(task.User.FirstName)  // Jack
+  Println(task.User.LastName)   // Daniel
+
+	Println("------")
+}
+
+// インターフェイスの埋め込み
+type Arm interface {
+  setArm(string)
+}
+
+type Body interface {
+  setBody(string)
+}
+
+type Robot interface {
+  Arm
+  Body
+}
+
+//// 検証用の構造体
+type MyRobot struct {
+	armName string
+	bodyName string
+}
+
+//// インターフェイスで定義されたメソッドを実装
+func (r *MyRobot) setArm(arm string) {
+	r.armName = arm
+}
+
+func (r *MyRobot) setBody(body string) {
+	r.bodyName = body
+}
+
+func func_extend_interface() {
+	robot := MyRobot{}
+  robot.setArm("10t arm")
+  robot.setBody("100t body")
+  Println(robot.armName)    // 10t arm
+  Println(robot.bodyName)   // 100t body
+}
+
 func main() {
 	var id ID = 1
 	var priority Priority = 5
@@ -194,4 +279,6 @@ func main() {
 	func_interface()
 	func_interface_any_type()
 	func_interface_any_type2()
+  func_extend()
+  func_extend_interface()
 }
