@@ -269,6 +269,19 @@ func func_extend_interface() {
   Println(robot.bodyName)   // 100t body
 }
 
+// 型の変換(キャストに失敗するとパニックが発生する
+func func_cast() {
+  Println("---cast---")
+  var i uint8 = 3
+  var j uint32 = uint32(i)  // unit8 > unit32
+  Println(j)      // 3
+
+  var s string = "abc"
+  var b []byte = []byte(s)  // string > []byte
+  Println(b)  // [97 98 99]
+  Println("------")
+}
+
 func main() {
 	var id ID = 1
 	var priority Priority = 5
@@ -281,4 +294,5 @@ func main() {
 	func_interface_any_type2()
   func_extend()
   func_extend_interface()
+  func_cast()
 }
