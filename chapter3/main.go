@@ -282,6 +282,54 @@ func func_cast() {
   Println("------")
 }
 
+// 型の検査
+func type_assert(value interface{}) {
+  _, ok := value.(string)   // Type Assertion
+  if ok {
+    Println("value is string")
+  } else {
+    Println("value is not string")
+  }
+}
+
+func func_type_assertion() {
+  Println("---type assertion---")
+  type_assert("abc")  // value is string
+  type_assert(100)  // value is not string
+  Println("------")
+}
+
+// 型による分岐
+type Stringer interface {
+  String() string
+}
+
+type Sample string
+func (sample Sample) String() string {
+  return "ok"
+}
+
+
+func type_switch(value interface{}) {
+  switch value.(type) {
+  case string:
+    Println("value is string")
+  case int:
+    Println("value is int")
+  case Stringer:
+    Println("value is Stringer")
+  }
+}
+
+func func_type_switch() {
+  Println("---type switch---")
+  type_switch("abc")  // value is string
+  type_switch(10)  // value is string
+  var x Sample = "xxx"
+  type_switch(x)
+  Println("------")
+}
+
 func main() {
 	var id ID = 1
 	var priority Priority = 5
@@ -295,4 +343,6 @@ func main() {
   func_extend()
   func_extend_interface()
   func_cast()
+  func_type_assertion()
+  func_type_switch()
 }
